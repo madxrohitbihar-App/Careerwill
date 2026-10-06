@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Careerwill</title>
+  <meta name="description" content="Explore all Careerwill online batches for competitive exams.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cw-blue: #2563eb;
+      --cw-navy: #111827;
+      --cw-dark: #1e293b;
+      --cw-gold: #f59e0b;
+      --cw-green: #10b981;
+      --cw-bg: #f8fafc;
+      --border-color: #e2e8f0;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--cw-bg); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.5; }
+    .top-header { position: sticky; top: 0; z-index: 50; background: #ffffff; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04); }
+    .header-container { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .cw-brand-badge { display: flex; align-items: center; gap: 8px; background: #f8fafc; border: 1px solid var(--border-color); padding: 4px 12px 4px 6px; border-radius: 30px; }
+    .cw-header-logo { width: 30px; height: 30px; border-radius: 50%; object-fit: contain; }
+    .cw-title { font-size: 15px; font-weight: 800; color: #000000; }
+    .cw-verified { width: 15px; height: 15px; background: #2563eb; color: #ffffff; border-radius: 50%; font-size: 10px; display: inline-flex; align-items: center; justify-content: center; }
+    .main-wrap { max-width: 1100px; width: 100%; margin: 0 auto; padding: 16px 16px 80px; flex: 1; }
+    .search-wrapper { margin: 4px 0 20px; position: relative; }
+    .search-input { width: 100%; padding: 13px 44px 13px 46px; font-size: 14.5px; border: 1.5px solid #cbd5e1; border-radius: 12px; background: #ffffff; outline: none; }
+    .search-input:focus { border-color: var(--cw-blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+    .search-icon { position: absolute; left: 15px; top: 14px; color: #94a3b8; }
+    .clear-search-btn { position: absolute; right: 14px; top: 12px; width: 24px; height: 24px; border-radius: 50%; border: none; background: #e2e8f0; color: #475569; display: none; place-items: center; cursor: pointer; }
+    .clear-search-btn.active { display: grid; }
+    .heading-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .page-heading { font-size: 23px; font-weight: 800; color: var(--pw-navy); display: flex; align-items: center; gap: 10px; }
+    .green-board { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%); color: #ffffff; padding: 4px 12px; border-radius: 8px; border: 2px solid #52b788; font-size: 14px; font-weight: 900; }
+    .sub-count-text { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
+    .chips-row { display: flex; align-items: center; gap: 8px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
+    .chips-row::-webkit-scrollbar { display: none; }
+    .filter-chip { white-space: nowrap; padding: 7px 16px; border-radius: 24px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .filter-chip.active { background: var(--cw-navy); color: #ffffff; border-color: var(--cw-navy); }
+    .batches-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 680px) { .batches-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1000px) { .batches-grid { grid-template-columns: repeat(3, 1fr); } }
+    .batch-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.04); display: flex; flex-direction: column; transition: transform 0.2s; }
+    .batch-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.08); }
+    .card-banner { position: relative; width: 100%; height: 165px; background: #0f172a; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .banner-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .card-content { padding: 16px; display: flex; flex-direction: column; flex: 1; }
+    .category-label { font-size: 12.5px; font-weight: 700; color: #ea580c; text-transform: uppercase; }
+    .batch-title { font-size: 16.5px; font-weight: 800; color: var(--cw-navy); margin: 8px 0 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .details-row, .status-row { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #10b981; }
+    .card-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; }
+    .price-main { font-size: 18px; font-weight: 800; color: var(--cw-navy); }
+    .buy-btn { background: var(--cw-navy); color: #ffffff; border: none; padding: 10px 18px; border-radius: 10px; font-size: 13.5px; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .buy-btn.locked { background: #64748b; cursor: not-allowed; }
+    .developer-footer { text-align: center; margin-top: 40px; font-size: 13px; color: var(--text-muted); font-weight: 700; }
+    .empty-state { text-align: center; padding: 60px 20px; background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 18px; display: none; grid-column: 1/-1; }
+    .reset-btn { background: var(--cw-blue); color: #fff; border: none; padding: 9px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <header class="top-header">
+    <div class="header-container">
+      <div class="header-left">
+        <div class="cw-brand-badge">
+          <!-- Yaha apna Logo link daalein -->
+          <img class="cw-header-logo" src="https://i.postimg.cc/fW3pxXNF/image-search-1791302510366.png" alt="Logo">
+          <span class="cw-title">Careerwill</span>
+          <span class="cw-verified">✓</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search batches by name, exam..." autocomplete="off">
+      <button id="clearSearchBtn" class="clear-search-btn">✕</button>
+    </div>
+
+    <div class="heading-bar">
+      <h1 class="page-heading">
+        All Batches
+        <div class="green-board" id="greenBoardCount">0</div>
+      </h1>
+    </div>
+    <div class="sub-count-text" id="subCountText">Loading batches...</div>
+
+    <div class="chips-row" id="chipsRow">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="ssc">SSC</button>
+      <button class="filter-chip" data-filter="maths">Maths</button>
+      <button class="filter-chip" data-filter="reasoning">Reasoning</button>
+      <button class="filter-chip" data-filter="pratham">Pratham</button>
+    </div>
+
+    <div class="batches-grid" id="batchesGrid"></div>
+
+    <div class="empty-state" id="emptyState">
+      <h3>No Batches Found</h3>
+      <p>Try searching for another term.</p>
+      <button class="reset-btn" id="resetFilterBtn">Reset Search</button>
+    </div>
+
+    <!-- Developer Credit -->
+    <div class="developer-footer">
+      Developed By MedxrohitBihar
+    </div>
+  </main>
+
+  <script>
+    // Total Batches List (1 to 13)
+    const fallbackBatches = [
+      { id: "1", name: "SSC Pratham (Recorded Batch) - 01", class: "Recorded", exam: "SSC", photo: "https://i.postimg.cc/7hdjvPrj/image-search-1791299004615.png", link: "https://madxrohitbihar-app.github.io/CW-1/", priceText: "Free", locked: false },
+      { id: "2", name: "BATCH 2 - SSC Aarambh Batch RECORDED", class: "Recorded", exam: "Aarambh", photo: "https://i.postimg.cc/SxJ72L8K/image-search-1791299339377.jpg", link: "https://madxrohitbihar-app.github.io/cw-2/", priceText: "Free", locked: false },
+      { id: "3", name: "BATCH 3 - SSC MATCH RECORDED BATCH", class: "Recorded", exam: "SSC", photo: "https://i.postimg.cc/6QZPRxRn/image-search-1791299802907.jpg", link: "https://madxrohitbihar-app.github.io/cw-3/", priceText: "Free", locked: false },
+      { id: "4", name: "BATCH 4 - Ssc Pratham-11 Rakesh Sir & Team Notes And Videos", class: "Notes & Videos", exam: "Pratham", photo: "https://i.postimg.cc/W3VL91wv/image-search-1791302119173.jpg", link: "https://madxrohitbihar-app.github.io/cw-4/", priceText: "Free", locked: false },
+      { id: "5", name: "BATCH 5 - Ssc Pratham Batch-05 Recorded !", class: "Recorded", exam: "Pratham", photo: "https://i.postimg.cc/hvGYwzzf/image-search-1791302230080.jpg", link: "https://madxrohitbihar-app.github.io/cw-5/", priceText: "Free", locked: false },
+      { id: "6", name: "BATCH 6 - SSC Pratham_Batch 01 Recorded !", class: "Recorded", exam: "Pratham", photo: "https://i.postimg.cc/DzcqRC35/image-search-1791299934442.jpg", link: "https://madxrohitbihar-app.github.io/cw-6/", priceText: "Free", locked: false },
+      { id: "7", name: "RAKESH YADAV SIR – MATH'S SPL 48", class: "Special", exam: "Maths", photo: "https://i.postimg.cc/Mp5LmmrK/image-search-1791300812758.jpg", link: "https://vividellorvii.vercel.app/pages/rakeshsir48.html", priceText: "Free", locked: false },
+      { id: "8", name: "ABHINAY SIR – MATH FOUNDATION BATCH", class: "Foundation", exam: "Maths", photo: "https://i.postimg.cc/vT1ypSkr/Picsart-26-10-06-21-10-56-963.jpg", link: "https://vividellorvii.vercel.app/pages/abhinaytoppersbatch2026.html", priceText: "Free", locked: false },
+      { id: "9", name: "PIYUSH SIR – REASONING BATCH", class: "Special", exam: "Reasoning", photo: "https://i.postimg.cc/nLRcg7MH/image-search-1791301353951.png", link: "https://vividellorvii.vercel.app/pages/piyushreasoning60.html", priceText: "Free", locked: false },
+      { id: "10", name: "COMPUTER SPECIAL BATCH – VOD", class: "VOD", exam: "Computer", photo: "https://i.postimg.cc/SxbXfWzb/Picsart-26-10-06-21-20-35-967.jpg", link: "https://vividxcomputerspl29.edgeone.app/", priceText: "Free", locked: false },
+      { id: "11", name: "SSC PRATHAM BATCH", class: "Recorded", exam: "SSC", photo: "https://i.postimg.cc/DzcqRC35/image-search-1791299934442.jpg", link: "https://vividellorvii.vercel.app/pages/ssc-pratham-batch-2.html", priceText: "Free", locked: false },
+      { id: "12", name: "SSC PRATHAM 2026 – BATCH", class: "VOD", exam: "SSC", photo: "https://i.postimg.cc/sfK3153G/IMG-20261006-205912.jpg", link: "https://vividellorvii.vercel.app/pages/pratham-2026-vod-batch.html", priceText: "Free", locked: false },
+      { id: "13", name: "ENGLISH PRACTICE BATCH 2024 – JAIDEEP SIR", class: "Practice", exam: "English", photo: "https://i.postimg.cc/rmFYH03g/image-search-1791300652987.jpg", link: "https://vividxengpractice26.edgeone.app/", priceText: "Free", locked: false }
+    ];
+
+    let allBatchesData = [];
+    let currentSearch = "";
+    let currentFilter = "all";
+
+    const batchesGrid = document.getElementById("batchesGrid");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+    const greenBoardCount = document.getElementById("greenBoardCount");
+    const subCountText = document.getElementById("subCountText");
+    const emptyState = document.getElementById("emptyState");
+    const chipsRow = document.getElementById("chipsRow");
+    const resetFilterBtn = document.getElementById("resetFilterBtn");
+
+    async function loadAllData() {
+      subCountText.textContent = "Loading batches...";
+      allBatchesData = fallbackBatches;
+      filterAndRender();
+    }
+
+    function filterAndRender() {
+      let filtered = allBatchesData;
+
+      if (currentFilter !== "all") {
+        filtered = filtered.filter(b => `${b.name} ${b.exam} ${b.class}`.toLowerCase().includes(currentFilter));
+      }
+
+      if (currentSearch) {
+        filtered = filtered.filter(b => `${b.name} ${b.exam} ${b.class}`.toLowerCase().includes(currentSearch.toLowerCase()));
+      }
+
+      greenBoardCount.textContent = filtered.length;
+      subCountText.textContent = `${filtered.length} courses available for your preparation`;
+
+      if (filtered.length === 0) {
+        batchesGrid.innerHTML = "";
+        emptyState.style.display = "block";
+        return;
+      }
+
+      emptyState.style.display = "none";
+      batchesGrid.innerHTML = filtered.map(b => `
+        <article class="batch-card">
+          <div class="card-banner">
+            <img class="banner-img" src="${b.photo}" alt="${b.name}" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="card-content">
+            <span class="category-label">${b.class ? b.class : 'CAREERWILL'}</span>
+            <h2 class="batch-title">${b.name}</h2>
+            <div class="details-row"><span>📖 ${b.exam || 'General'}</span></div>
+            <div class="status-row">
+              <span class="status-dot" style="background: ${b.locked ? '#ef4444' : '#10b981'}"></span>
+              <span>${b.locked ? 'Locked Batch' : 'Ongoing'}</span>
+            </div>
+            <div class="card-footer">
+              <div class="price-main">${b.locked ? b.priceText : 'Free'}</div>
+              <a href="${b.locked ? 'javascript:void(0);' : b.link}" class="buy-btn ${b.locked ? 'locked' : ''}" ${b.locked ? '' : 'target="_blank"'}>
+                ${b.locked ? '🔒 Locked' : 'View Batch'}
+              </a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      currentSearch = e.target.value.trim();
+      clearSearchBtn.classList.toggle("active", currentSearch.length > 0);
+      filterAndRender();
+    });
+
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      currentSearch = "";
+      clearSearchBtn.classList.remove("active");
+      filterAndRender();
+    });
+
+    chipsRow.addEventListener("click", (e) => {
+      const btn = e.target.closest(".filter-chip");
+      if (!btn) return;
+      document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.dataset.filter;
+      filterAndRender();
+    });
+
+    resetFilterBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      currentSearch = "";
+      currentFilter = "all";
+      document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+      document.querySelector('[data-filter="all"]').classList.add("active");
+      filterAndRender();
+    });
+
+    loadAllData();
+  </script>
+</body>
+</html>
